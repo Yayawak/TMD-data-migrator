@@ -6,7 +6,7 @@ import numpy as np
 def getLatLongOfNakornnayok() -> List[Tuple[str, List[List]]]:
 # def getLatLongOfNakornnayok() -> np.ndarray[str, np.ndarray[np.ndarray]]:
     # wb = Workbook()
-    nakornnayok_wb = load_workbook("resources/นครนายก.xlsx")
+    nakornnayok_wb = load_workbook("resources/excel/นครนายก.xlsx")
     sheet_data = []
     for i, ws in enumerate(nakornnayok_wb.worksheets):
         sheet_name = nakornnayok_wb.sheetnames[i]

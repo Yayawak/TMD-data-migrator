@@ -13,7 +13,7 @@ def _get_date_time(datetime_string:str):
     year = ss[3]
     time = ss[5]
     # return "d", "t"
-    return f"{date_of_month}/{month}/{year}", time
+    return f"{date_of_month}-{month}-{year}", time
 
 def extractDatetimeFromString(date_text) -> Tuple[str, str]:
     # todo : expected h5 output as below
