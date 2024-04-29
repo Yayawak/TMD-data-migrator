@@ -8,6 +8,7 @@ def getLatLongId(db, lat, long):
     cs.execute(sql_get_latlong_id)
     row = cs.fetchone()
     latlong_id = row[0]
+    cs.fetchall() # this help fixing bug on checkIfDatetimeLatLongExistedOnDB function
     return latlong_id
 
 def getDatetimeId(db, datetime:libdatetime):
