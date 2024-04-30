@@ -54,6 +54,7 @@ def manageMatchedLatLong(lat, long, db, csv_row, nine_days):
     # +9 becasued if use 2: then it will use till end but if some csv file have more than that lol
     ninesNextDaysWater = csv_row[2:2+9].to_numpy()
     # may be not 9 lol noob csv from website
+    pivot_dtll_id = ""
     for k, waterAmount in enumerate(ninesNextDaysWater):
         somenextday = nine_days[k]
         # ---------------------------------------------------------------------------- #
@@ -74,10 +75,19 @@ def manageMatchedLatLong(lat, long, db, csv_row, nine_days):
         #                        insert water data to WaterData                        #
         # ---------------------------------------------------------------------------- #
         dtll_id = getDatetimeLatLongId(db, datetime_id, latlong_id)
-        sql = """
-            insert into WaterData (datetimelatlongId, waterAmount)
-            values (%s, %s)
-        """
+        sql = ""
+        if k > 0:
+            sql = f"""
+                insert into WaterData (datetimelatlongId, waterAmount, pivot_datetimelatlong_id)
+                values (%s, %s, {pivot_dtll_id})
+            """
+        else:
+            pivot_dtll_id = dtll_id
+            sql = f"""
+                insert into WaterData (datetimelatlongId, waterAmount)
+                values (%s, %s)
+            """
+            
         val = (dtll_id, waterAmount)
         cs = db.db.cursor()
         cs.execute(sql, val)

@@ -4,7 +4,7 @@ CREATE TABLE `DatetimeRecord` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `datetime` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=373 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=514 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 -- tmd_water_db.District definition
@@ -26,7 +26,7 @@ CREATE TABLE `LatLong` (
   PRIMARY KEY (`id`),
   KEY `LatLong_District_FK` (`districtId`),
   CONSTRAINT `LatLong_District_FK` FOREIGN KEY (`districtId`) REFERENCES `District` (`districtId`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=131 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 -- tmd_water_db.DatetimeLatLong definition
@@ -40,7 +40,7 @@ CREATE TABLE `DatetimeLatLong` (
   KEY `DatetimeLatLong_DatetimeRecord_FK` (`datetimeId`),
   CONSTRAINT `DatetimeLatLong_DatetimeRecord_FK` FOREIGN KEY (`datetimeId`) REFERENCES `DatetimeRecord` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `DatetimeLatLong_LatLong_FK` FOREIGN KEY (`latlongid`) REFERENCES `LatLong` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7404 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11025 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 -- tmd_water_db.WaterData definition
@@ -49,7 +49,10 @@ CREATE TABLE `WaterData` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `datetimelatlongId` int unsigned NOT NULL,
   `waterAmount` double NOT NULL,
+  `pivot_datetimelatlong_id` int unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `WaterData_DatetimeLatLong_FK` (`datetimelatlongId`),
-  CONSTRAINT `WaterData_DatetimeLatLong_FK` FOREIGN KEY (`datetimelatlongId`) REFERENCES `DatetimeLatLong` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=43730 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `WaterData_DatetimeLatLong_FK_1` (`pivot_datetimelatlong_id`),
+  CONSTRAINT `WaterData_DatetimeLatLong_FK` FOREIGN KEY (`datetimelatlongId`) REFERENCES `DatetimeLatLong` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `WaterData_DatetimeLatLong_FK_1` FOREIGN KEY (`pivot_datetimelatlong_id`) REFERENCES `DatetimeLatLong` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=60069 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
