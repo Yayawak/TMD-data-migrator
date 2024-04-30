@@ -8,6 +8,8 @@ from datetime import timedelta
 from src.dateUtils.dateutils import thaiMonthToMonthOrderStartWithOne, isDatetimeExistedInDatatimeRecordTable, createDateOnDBIfNotExisted,getNextNDay
 from src.utils.utils import *
 import json
+import schedule
+import time
 
 def targetFN(threadIndex, csv_url, date, time):
     print(f"{threadIndex} : Downloading {csv_url}...")
@@ -96,23 +98,9 @@ def manageMatchedLatLong(lat, long, db, csv_row, nine_days):
 
 
 
-if __name__ == "__main__":
-    print("Start program.")
-    db = DB()
-
-    config_file_path = "resources/config.json"
-    configfile = open(config_file_path)
-    config_data = json.load(configfile)
-
-    latlongs_nk_data = getLatLongOfNakornnayok()
-
-    if config_data["isInitNakornnayokLatLong"] == False:
-        insertLatLongDistrictToDB(latlongs_nk_data, db)
-        config_data["isInitNakornnayokLatLong"] = True
-        with open(config_file_path, 'w') as f:
-            json.dump(config_data, f)
 
 
+def main(db, latlongs_nk_data):
 
 
     scp = Scrapper()
@@ -170,3 +158,26 @@ if __name__ == "__main__":
     # for t in threads:
     #     t.join()
     # print("end of all threads.")
+
+if __name__ == "__main__":
+    print("Start program.")
+    db = DB()
+
+    config_file_path = "resources/config.json"
+    configfile = open(config_file_path)
+    config_data = json.load(configfile)
+
+    latlongs_nk_data = getLatLongOfNakornnayok()
+
+    if config_data["isInitNakornnayokLatLong"] == False:
+        insertLatLongDistrictToDB(latlongs_nk_data, db)
+        config_data["isInitNakornnayokLatLong"] = True
+        with open(config_file_path, 'w') as f:
+            json.dump(config_data, f)
+    
+    # main(db, latlongs_nk_data)
+    schedule.every().day.at("10:00").do(job,'It is 01:00')
+
+    while True:
+        schedule.run_pending()
+        time.sleep(60) # wait one minute

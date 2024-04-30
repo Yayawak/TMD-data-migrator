@@ -2,3 +2,4 @@ selenium
 pandas
 openpyxl
 mysql-connector-python
+schedule
